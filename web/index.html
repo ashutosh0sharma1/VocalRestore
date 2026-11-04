@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#193e4b" />
+    <title>Restore — a little room for your voice</title>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="desktop-label" aria-hidden="true">
+      <img src="/icon.svg" alt="" />restore.exe
+    </div>
+    <main class="window" aria-labelledby="window-title">
+      <header class="titlebar">
+        <span id="window-title"
+          ><img src="/icon.svg" alt="" /> Restore
+          <span class="title-extra">/ Vocal cleanup</span></span
+        ><button
+          id="help-button"
+          aria-label="About Restore"
+          title="About Restore"
+        >
+          ?
+        </button>
+      </header>
+      <nav class="menubar" aria-label="Application">
+        <button id="open-menu"><u>O</u>pen recording…</button
+        ><button id="help-menu"><u>H</u>elp</button
+        ><span class="local-indicator"><i></i> LOCAL ONLY</span>
+      </nav>
+      <div class="content">
+        <div class="intro">
+          <div>
+            <p class="eyebrow">SMALL APP. CLEARER VOCALS.</p>
+            <h1>A little room for<br />your voice.</h1>
+            <p class="subtitle">Drop a vocal. Leave the cleanup to Restore.</p>
+          </div>
+          <div class="stamp" aria-hidden="true">
+            <img src="/icon.svg" alt="" /><span>EST. 2026</span>
+          </div>
+        </div>
+        <aside id="setup" class="notice" hidden>
+          <strong>A little setup first</strong>
+          <p>Restore needs its local models and tools before it can clean.</p>
+          <ul id="setup-list"></ul>
+          <p>See the README, then restart Restore.</p>
+        </aside>
+        <div id="drop-zone" class="drop-zone">
+          <span class="file-icon" aria-hidden="true">♫</span>
+          <h2 id="drop-title">Your next good take starts here.</h2>
+          <p id="drop-detail">
+            Drop a recording, or choose one from your computer.
+          </p>
+          <button id="browse" class="button">Choose audio…</button>
+          <input
+            id="file-input"
+            type="file"
+            accept=".wav,.mp3,.flac,.m4a,.ogg,.aif,.aiff"
+            hidden
+          />
+          <p class="formats">
+            WAV · MP3 · FLAC · M4A · OGG · AIFF <span>/ up to 512 MB</span>
+          </p>
+        </div>
+        <section id="work" hidden aria-label="Recording">
+          <div class="file-row">
+            <span class="tiny-file" aria-hidden="true">♫</span>
+            <div>
+              <h2 id="filename"></h2>
+              <p id="file-detail">Ready for the fixed cleanup workflow</p>
+            </div>
+            <button id="replace" class="text-button">Change</button>
+          </div>
+          <div class="display">
+            <div class="display-top">
+              <span id="display-label">RECORDING LOADED</span
+              ><span id="clock">00:00</span>
+            </div>
+            <canvas
+              id="wave"
+              width="720"
+              height="104"
+              aria-label="Audio waveform"
+              role="img"
+            ></canvas>
+            <p id="wave-empty">Ready when you are.</p>
+          </div>
+          <div id="player" hidden>
+            <div class="player-controls">
+              <div class="ab" role="group" aria-label="Compare recording">
+                <button id="before" aria-pressed="false">Before</button
+                ><button id="after" aria-pressed="true">Cleaned</button>
+              </div>
+              <button id="play" class="button play" aria-label="Play recording">
+                ▶ Play</button
+              ><span id="play-time">0:00 / 0:00</span>
+            </div>
+            <label class="sr-only" for="seek">Playback position</label
+            ><input
+              type="range"
+              id="seek"
+              min="0"
+              max="1000"
+              value="0"
+              step="1"
+            />
+            <audio id="original" preload="metadata"></audio
+            ><audio id="cleaned" preload="metadata"></audio>
+          </div>
+          <div id="progress" hidden>
+            <ol class="stages" aria-label="Cleanup progress">
+              <li>Noise</li>
+              <li>Echo</li>
+              <li>Breaths</li>
+              <li>Mouth</li>
+              <li>Finish</li>
+              <li>Export</li>
+            </ol>
+          </div>
+          <div id="message" role="status" aria-live="polite">
+            Ready to clean.
+          </div>
+          <div class="actions">
+            <button id="clean" class="button primary">✦ Clean vocal</button
+            ><button id="cancel" class="button" hidden>Stop</button
+            ><button id="resume" class="button" hidden>Resume cleanup</button>
+            <div id="downloads" hidden>
+              <a id="wav-download" class="button primary" download>↓ Save WAV</a
+              ><a id="mp3-download" class="button" download>Save MP3</a>
+            </div>
+            <button id="new-file" class="text-button" hidden>
+              Another recording
+            </button>
+          </div>
+        </section>
+        <div id="error" class="notice error" role="alert" hidden></div>
+        <div class="recipe">
+          <span class="recipe-icon" aria-hidden="true">✧</span>
+          <div>
+            <strong>One workflow. A cleaner take.</strong>
+            <p>Noise & echo → breaths & mouth clicks → a gentle finish.</p>
+          </div>
+        </div>
+        <details id="recent-wrap" hidden>
+          <summary>Recent recordings <span id="recent-count"></span></summary>
+          <ul id="recent"></ul>
+        </details>
+      </div>
+      <footer class="statusbar">
+        <span><i id="status-led"></i> <span id="status">Connecting…</span></span
+        ><span id="profile">STUDIO</span><span>v2.0</span
+        ><span class="grip" aria-hidden="true">◢</span>
+      </footer>
+    </main>
+    <p class="desktop-footer">MADE FOR THE VOICE. KEPT ON YOUR COMPUTER.</p>
+    <dialog id="about">
+      <div class="titlebar">
+        <span>About Restore</span
+        ><button id="close-help" aria-label="Close help">×</button>
+      </div>
+      <div class="dialog-body">
+        <h2>A small, quiet tool.</h2>
+        <p>
+          Restore cleans isolated vocals with a fixed sequence of local audio
+          models and carefully limited processing. Your recordings stay on this
+          computer.
+        </p>
+        <p>
+          Choose a mono or stereo recording between 1 second and 30 minutes.
+          Keep Restore running while it works; closing this tab is fine. Models
+          can take several minutes, especially on a CPU.
+        </p>
+        <p>
+          Use <strong>Before / Cleaned</strong> to switch at the same playback
+          position. WAV is 24-bit; MP3 is 320 kbps.
+        </p>
+        <p>
+          The studio profile uses your licensed Nectar, Waves X-Click and
+          soothe2 plugins. The optional portable profile has different
+          processing and is experimental. Neither profile guarantees removal of
+          every artifact.
+        </p>
+        <p>
+          Settings live in <code>config.json</code>. Restart after editing.
+          Completed recordings and saved stages live in
+          <code>output/jobs</code>, or your configured output folder.
+        </p>
+        <p>
+          The configured Sucial breath model is licensed for non-commercial use.
+          See the model terms before using it for paid or monetized work.
+        </p>
+        <p>Open-source app · GPL-3.0 · No analytics · No account</p>
+        <button id="help-done" class="button">Back to my recording</button>
+      </div>
+    </dialog>
+  </body>
+</html>

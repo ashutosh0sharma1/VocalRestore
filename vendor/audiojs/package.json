@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@audio/denoise-declick": "0.4.0"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "profile": "studio",
+  "model_dir": "models",
+  "respiro_model": "models/respiro/respiro-en.onnx",
+  "output_dir": "output/jobs",
+  "source": "huggingface",
+  "runtime": {
+    "device": "cpu",
+    "inference_params": {"cpu_threads": 16, "batch_size": 1, "normalize": false, "use_tta": false, "cuda_attention_backend": "auto"}
+  },
+  "models": {
+    "denoise_safe": {"name": "denoise_mel_band_roformer_aufr33_sdr_27.9959", "output_stem": "dry"},
+    "dereverb_safe": {"name": "dereverb_mel_band_roformer_less_aggressive_anvuew_sdr_18.8050", "output_stem": "noreverb"},
+    "aspiration_strong": {"name": "aspiration_mel_band_roformer_sdr_18.9845", "output_stem": "other"}
+  },
+  "breath_control": {
+    "mode": "automatic", "reduction_db": 80, "protection_ms": 30,
+    "detector_threshold": 0.5, "boundary_extension_ms": 60,
+    "nectar_enabled": true, "nectar_sensitivity": 90, "continuous_gain": true,
+    "nectar_gain_power": 3, "ratio_threshold": 0.6, "min_breath_ms": 70
+  },
+  "dsp": {"declick": {
+    "nectar_enabled": true, "amount": 1.0, "suppression_power": 5.0,
+    "reduction_db": 60, "protect_singing": true, "max_relative_repair": 0.20,
+    "click_repair": {"enabled": true, "engine": "waves", "threshold": 50, "shape": 60, "light_threshold": 8}
+  }},
+  "studio_finish": {"enabled": true, "soothe_enabled": true, "amount": 0.35},
+  "plugins": {
+    "nectar_breath": "C:/Program Files/Common Files/VST3/iZotope/Nectar 4 Breath Control.vst3",
+    "nectar_mouth": "C:/Program Files/Common Files/VST3/iZotope/Nectar 4 Auto-Level.vst3",
+    "xclick": "C:/Program Files/Common Files/VST3/WaveShell1-VST3 15.5_x64.vst3",
+    "soothe": "C:/Program Files/Common Files/VST3/oeksound/soothe2_x64.vst3"
+  }
+}

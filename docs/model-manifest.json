@@ -1,0 +1,23 @@
+[
+  {
+    "stage": "denoise_safe",
+    "name": "denoise_mel_band_roformer_aufr33_sdr_27.9959",
+    "relative_path": "cleanup/noise_bleed_control/denoise_mel_band_roformer_aufr33_sdr_27.9959.ckpt",
+    "bytes": 913097300,
+    "sha256": "7c1c39191edc34e942ca7f2346ce6b6c0e1208a5f76349ffce6f696bd12910de"
+  },
+  {
+    "stage": "dereverb_safe",
+    "name": "dereverb_mel_band_roformer_less_aggressive_anvuew_sdr_18.8050",
+    "relative_path": "reverb_echo_control/dereverb/dereverb_mel_band_roformer_less_aggressive_anvuew_sdr_18.8050.ckpt",
+    "bytes": 913107578,
+    "sha256": "0db8f1b41c00cead1112e967262a12802fd32e76c0c3a8eb207e772bae25d07b"
+  },
+  {
+    "stage": "aspiration_strong",
+    "name": "aspiration_mel_band_roformer_sdr_18.9845",
+    "relative_path": "vocal/aspiration_breath/aspiration_mel_band_roformer_sdr_18.9845.ckpt",
+    "bytes": 835983746,
+    "sha256": "9e791258c866c6c8da66052693d8cc3b64f1f42c01e052dbdc570cd278380cc5"
+  }
+]
