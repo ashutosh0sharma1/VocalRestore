@@ -335,7 +335,7 @@ class Handler(BaseHTTPRequestHandler):
                     .encode()
                 ).hexdigest()[:16]
                 return self.json(
-                    {"app": "restore", "version": "2.0.0", "instance": identity}
+                    {"app": "restore", "version": "2.0.1", "instance": identity}
                 )
             if url.path == "/api/session":
                 return self.json(
@@ -345,7 +345,7 @@ class Handler(BaseHTTPRequestHandler):
                         issues=jobs.issues,
                         active=jobs.active,
                         recent=jobs.recent(),
-                        version="2.0.0",
+                        version="2.0.1",
                     )
                 )
             if len(parts) == 3 and parts[:2] == ["api", "jobs"]:

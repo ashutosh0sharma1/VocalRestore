@@ -1,0 +1,44 @@
+name: Audio cleanup or preservation
+description: Report a remaining artifact or an intended sound affected by cleanup.
+title: "[Audio] "
+body:
+  - type: markdown
+    attributes:
+      value: "Keep your original. Do not upload private recordings or model/plugin files. Describe the sound first; a synthetic or explicitly publishable example can be discussed later."
+  - type: input
+    id: version
+    attributes:
+      label: Restore version and profile
+      placeholder: "Version/commit, Studio or Portable, relevant changed settings"
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Recording type and format
+      placeholder: "Singing/chant/speech, language, duration, sample rate, mono/stereo, input format"
+    validations:
+      required: true
+  - type: dropdown
+    id: problem
+    attributes:
+      label: What went wrong?
+      options:
+        - An unwanted sound remains
+        - An intended word or sound is damaged
+        - A new processing artifact appears
+        - Unsure
+    validations:
+      required: true
+  - type: textarea
+    id: listening
+    attributes:
+      label: Exact time range and what you hear
+      description: Describe the original and cleaned passage at the same playback level, including which saved stage first shows the problem if known. A detector or AI description alone is not confirmation.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Settings or comparisons tried
+      description: Include relevant settings and observed effects, without private paths or full job files.

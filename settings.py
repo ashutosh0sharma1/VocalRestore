@@ -94,6 +94,8 @@ def preflight(config):
             issues.append(f"Install Python dependency: {module}")
     if not shutil.which("ffmpeg"):
         issues.append("Install FFmpeg and add it to PATH")
+    if not shutil.which("ffprobe"):
+        issues.append("Install ffprobe (included with FFmpeg) and add it to PATH")
     model_dir = Path(config["model_dir"])
     for key in ("denoise_safe", "dereverb_safe", "aspiration_strong"):
         name = config["models"][key]["name"]

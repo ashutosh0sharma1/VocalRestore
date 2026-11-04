@@ -45,6 +45,24 @@ def test_real_index_and_headers(server):
     assert headers["Cross-Origin-Resource-Policy"] == "same-origin"
 
 
+@pytest.mark.parametrize("missing", ["ffmpeg", "ffprobe"])
+def test_preflight_reports_each_required_audio_tool(monkeypatch, missing):
+    real_which = shutil.which
+
+    def which(name):
+        if name in {"ffmpeg", "ffprobe"}:
+            return None if name == missing else "installed-tool"
+        return real_which(name)
+
+    monkeypatch.setattr(shutil, "which", which)
+    issues = settings.preflight(settings.load(local=False))
+    tool_issues = [
+        issue for issue in issues if "PATH" in issue and "ff" in issue.lower()
+    ]
+    assert len(tool_issues) == 1
+    assert missing in tool_issues[0].lower()
+
+
 @pytest.mark.parametrize(
     "headers",
     [

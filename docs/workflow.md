@@ -1,5 +1,9 @@
 # The fixed workflow
 
+[Overview](../README.md#the-workflow) · [Setup](getting-started.md) · [Configuration](configuration.md) · [Model terms](models.md)
+
+The Studio profile is the established chain below. Restore contributes the integration and protection/recovery logic; the underlying models and plugins are credited separately. Processing preserves the timeline rather than deleting intervals.
+
 1. **Decode** to a separate float WAV, preserving rate and mono/stereo layout. Reject invalid samples, unsupported channel counts, disguised playlists and excessive durations.
 2. **Noise model:** established aufr33 safe MelBand Roformer.
 3. **Echo model:** established anvuew less aggressive MelBand Roformer.
@@ -9,6 +13,18 @@
 7. **Export:** constant gain toward −18 LUFS, maximum +3 dB boost and −1 dBTP ceiling, PCM24 WAV and 320 kbps MP3. Original frames/rate/channels and finite samples are checked at every stage.
 
 There are no hand-labelled cuts in the normal workflow, no scale-dependent pitch correction, and no hardcoded recording timestamps. All results need listening review; stronger suppression is not automatically better.
+
+## What changes in Portable?
+
+| Stage | Studio | Portable |
+| --- | --- | --- |
+| Noise / echo | aufr33 / anvuew | Same models |
+| Breaths | Sucial + Respiro + Nectar with voiced guards | Sucial + Respiro with voiced guards; no Nectar |
+| Mouth clicks | Protected paired Nectar suppression, then Waves X-Click | AudioJS autoregressive click repair; no Nectar or Waves |
+| Finish | 35% soothe2 blend, high-pass and parallel dynamics | High-pass and parallel dynamics; no soothe2 |
+| Export / saved jobs | WAV + MP3, validated checkpoints and receipts | Same app/export/recovery features |
+
+Portable is experimental and has not demonstrated Studio-equivalent listening results. Both profiles retain the Sucial non-commercial restriction. [Validation](validation.md) explains what has actually been tested.
 
 ## Native host details
 

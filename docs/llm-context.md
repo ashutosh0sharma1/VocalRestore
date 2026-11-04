@@ -1,5 +1,9 @@
 # Maintainer handoff
 
+Current patch: 2.0.1, 4 November 2026. Repository review improved the README with an actual UI screenshot, fixed-workflow diagram, free/separate dependency tables, profile-specific setup, FAQ, roadmap and structured issue/PR templates. See docs/repository-review.md for the assessment against current Pedalboard/UVR/DawDreamer onboarding. No ranking or comparative audio-quality claim.
+
+56 local tests passed, including native checks; lint/build and local documentation links/YAML pass. CI now installs/verifies FFmpeg/ffprobe to eliminate five accidental decode/export skips; four native installation cases remain opt-in. Startup preflight now checks ffprobe as well as ffmpeg. Earlier sandbox-only socket/temp failures are environmental, not audio regressions. Engine files, model choices and config.json were unchanged. The source release remains separate from weights/plugins; no all-in-one installer or public listening corpus is claimed.
+
 Restore 2.0 is a standalone local Python application with a vanilla retro browser UI. It is separate from any parent repository. Preserve the studio defaults and fixed order; all tuning is in config.json plus an ignored .config.local.json override.
 
 Verified 4 November 2026: 54 local tests passed including installed X-Click/Nectar/Respiro checks; real 8-second studio workflow completed, format/frames retained, browser-downloaded WAV matched the rendered file. Desktop/mobile A/B, help and reload were checked. Source lint/build and Python 3.13 dependency resolution pass. See docs/validation.md for timings and limitations. No claim of universal artifact-free audio or clean-machine/non-Windows acceptance.

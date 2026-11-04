@@ -1,8 +1,16 @@
 # Validation and known limits
 
-## Release checks — 4 November 2026
+## 2.0.1 repository and setup checks — 4 November 2026
 
-- Final local suite: **54 passed**, including installed native plugins and detector weights. Public CI skips those four installation-dependent cases.
+- **56 local tests passed**, including the installed X-Click, Nectar and Respiro checks and two new missing-tool preflight cases. Lint and source build passed.
+- Public CI now installs and verifies both FFmpeg and ffprobe before testing. Only the four proprietary-plugin/detector installation tests are intentionally opt-in. Actual hosted results are linked from [Source checks](https://github.com/ashutosh0sharma1/VocalRestore/actions/workflows/checks.yml) and the [2.0.1 release](https://github.com/ashutosh0sharma1/VocalRestore/releases/tag/v2.0.1).
+- Local documentation links and GitHub YAML were checked. The README image is a real, unedited app screenshot with no recording content.
+- No audio-engine files, model choices or default configuration changed. No new full-recording render or perceptual-quality claim is implied by this documentation/setup patch.
+- An initial test attempt inside a restricted Windows sandbox failed on loopback socket access and temporary-file permissions. The same suite passed with normal local access; those failures were test-environment restrictions. Separately, preflight's missing ffprobe check was an application setup gap and is fixed here.
+
+## Original 2.0.0 release checks — 4 November 2026
+
+- Final local suite: **54 passed**, including installed native plugins and detector weights. The [first public CI run](https://github.com/ashutosh0sharma1/VocalRestore/actions/runs/41825418541) passed **45 tests and skipped 9**: four native-installation cases and five FFmpeg-dependent cases. The 2.0.1 CI configuration installs and verifies FFmpeg/ffprobe to close the latter gap.
 - Python and JavaScript source checks, JSON parsing, and an allowlisted source/private-material scan.
 - Unit/API tests cover foreign Origin/Host rejection, mutation tokens, upload validation, one-job ownership, byte-range audio playback, media/path allowlists, cancellation, crash detection, configuration overrides, checkpoint integrity and Unicode audio decoding.
 - Audio tests cover no gain riding from paired Nectar renders, voiced guards, silence/antiphase inputs, exact bypass, injected impulse reconstruction, frame preservation, export ceiling and transient Windows JSON locks.

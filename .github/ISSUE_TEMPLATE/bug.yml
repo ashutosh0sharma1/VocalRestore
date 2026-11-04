@@ -1,0 +1,43 @@
+name: Setup or application bug
+description: Report a reproducible installation, interface or processing failure.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "Check the setup guide first. Do not include credentials, activation data, private recordings or full job folders. Security reports belong in the private route described in SECURITY.md."
+  - type: input
+    id: version
+    attributes:
+      label: Restore version or commit
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: OS, Python version and CPU/RAM
+      placeholder: "Windows x64, Python 3.13, CPU model, RAM"
+    validations:
+      required: true
+  - type: dropdown
+    id: profile
+    attributes:
+      label: Profile
+      options:
+        - Studio
+        - Portable
+        - Custom configuration
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps, expected result and actual result
+      description: Include the stage that failed and whether this previously worked with the same version/configuration.
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Relevant error and checks tried
+      description: Redact personal paths and secrets. Include whether ffmpeg and ffprobe resolve in the launching terminal.
+      render: text

@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Setup, profile choices and troubleshooting
+    url: https://github.com/ashutosh0sharma1/VocalRestore/blob/main/docs/getting-started.md
+    about: Start here for installation and missing dependencies.
+  - name: Model and plugin licenses
+    url: https://github.com/ashutosh0sharma1/VocalRestore/blob/main/docs/models.md
+    about: Read the separate terms, including the current non-commercial model restriction.
+  - name: Security reporting
+    url: https://github.com/ashutosh0sharma1/VocalRestore/blob/main/SECURITY.md
+    about: Do not disclose vulnerabilities or private data in a public issue.
