@@ -85,18 +85,41 @@ function reset() {
   show("wave-empty");
   localStorage.removeItem("restore-job");
 }
-function choose(candidate) {
-  if (
-    !candidate ||
-    loading ||
-    ["starting", "running", "uploading"].includes(lastState?.status)
-  )
-    return;
+async function choose(candidate) {
+  if (!candidate) return;
+  if (loading) return fail("Wait for the file transfer to finish, then drop again.");
   if (!/\.(wav|mp3|flac|m4a|ogg|aiff?)$/i.test(candidate.name))
     return fail("Please choose a supported audio file.");
   if (!candidate.size || candidate.size > 512 * 1024 * 1024)
     return fail("Choose a nonempty audio file under 512 MB.");
+  if (file || job) {
+    const dialog = $("replace-dialog");
+    if (dialog.open) return;
+    const busy = ["starting", "running", "uploading"].includes(lastState?.status);
+    const question = busy
+      ? "Stop the current cleanup and open " + candidate.name + "? Completed stages are saved for Resume."
+      : "Replace the current recording with " + candidate.name + "? Saved recordings stay in Recent.";
+    $("replace-question").textContent = question;
+    $("confirm-replace").textContent = busy ? "Stop and replace" : "Replace recording";
+    dialog.returnValue = "keep";
+    const answer = new Promise((resolve) =>
+      dialog.addEventListener("close", () => resolve(dialog.returnValue), { once: true }));
+    dialog.showModal();
+    if (await answer !== "replace") return;
+    if (busy) {
+      loading = true;
+      try {
+        await api(`/api/jobs/${job}/cancel`, { method: "POST" });
+        await loadSession(false);
+      } catch (error) {
+        return fail(error.message);
+      } finally {
+        loading = false;
+      }
+    }
+  }
   reset();
+  for (const id of ["browse", "open-menu", "file-input"]) $(id).disabled = false;
   file = candidate;
   show("drop-zone", false);
   show("work");
@@ -296,7 +319,10 @@ async function loadSession(recover = true) {
         span = document.createElement("span");
       button.textContent = item.name;
       button.disabled = Boolean(session.active && session.active !== item.id);
-      button.addEventListener("click", () => openJob(item.id));
+      button.addEventListener("click", () => {
+        if (window.restoreDesktop) $("recent-wrap").open = false;
+        openJob(item.id);
+      });
       span.textContent = item.status;
       li.append(button, span);
       return li;
@@ -332,10 +358,44 @@ for (const name of ["dragleave", "drop"])
   $("drop-zone").addEventListener(name, (e) => {
     e.preventDefault();
     $("drop-zone").classList.remove("dragging");
-    if (name === "drop") choose(e.dataTransfer.files[0]);
   });
 document.addEventListener("dragover", (e) => e.preventDefault());
-document.addEventListener("drop", (e) => e.preventDefault());
+document.addEventListener("drop", (e) => {
+  e.preventDefault();
+  if (e.dataTransfer.files.length > 1) return fail("Drop one recording at a time.");
+  choose(e.dataTransfer.files[0]);
+});
+if (window.restoreDesktop && window.chrome?.webview) {
+  document.documentElement.classList.add("native");
+  show("window-controls");
+  const recent = $("recent-wrap");
+  $("help-menu").before(recent);
+  document.addEventListener("click", (e) => {
+    if (recent.open && !recent.contains(e.target)) recent.open = false;
+  });
+  recent.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      recent.open = false;
+      recent.querySelector("summary").focus();
+    }
+  });
+  for (const command of ["minimize", "maximize", "close"])
+    $(command).addEventListener("click", () => window.chrome.webview.postMessage(command));
+  for (const ext of ["wav", "mp3"]) {
+    const button = $(ext + "-download");
+    button.title = "Click to save or drag the cleaned file into another app";
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (lastState?.status === "complete")
+        window.chrome.webview.postMessage("save " + job + " " + ext);
+    });
+    button.addEventListener("dragstart", (e) => {
+      e.preventDefault();
+      if (lastState?.status === "complete")
+        window.chrome.webview.postMessage("drag " + job + " " + ext);
+    });
+  }
+}
 $("clean").addEventListener("click", async () => {
   if (!file || loading) return;
   loading = true;

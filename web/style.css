@@ -114,6 +114,35 @@ a {
   font-weight: normal;
   opacity: 0.75;
 }
+.native body {
+  padding: 0;
+  background: var(--paper);
+}
+.native .desktop-label, .native .desktop-footer {
+  display: none;
+}
+.native .window {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
+.native .content {
+  flex: 1;
+  overflow: auto;
+}
+.native .window > .titlebar {
+  app-region: drag;
+  user-select: none;
+}
+.title-actions, #window-controls {
+  display: flex;
+  gap: 3px;
+  app-region: no-drag;
+}
 .titlebar button {
   width: 23px;
   height: 21px;
@@ -703,4 +732,52 @@ code {
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Desktop recordings use the window for the take and its controls. */
+.native .content:has(#work:not([hidden])) .intro,
+.native .content:has(#work:not([hidden])) .recipe,
+.native .content:has(#setup:not([hidden])) .intro {
+  display: none;
+}
+.native .content {
+  padding: clamp(12px, 3vh, 28px) clamp(14px, 4vw, 38px);
+}
+.native .display {
+  min-height: 0;
+}
+.native canvas {
+  height: clamp(64px, 21vh, 180px);
+}
+.native #wave-empty {
+  top: 52%;
+}
+.native #recent-wrap {
+  position: relative;
+  margin: 0;
+}
+.native #recent-wrap summary {
+  padding: 5px 8px;
+}
+.native #recent {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  padding: 4px 12px;
+  width: min(310px, 60vw);
+  background: var(--paper);
+  border: 1px solid var(--edge);
+  box-shadow: 2px 3px 0 #18363844;
+}
+@media (max-height: 640px) {
+  .native .intro { margin-bottom: 12px; }
+  .native .drop-zone { padding: 14px; }
+  .native .recipe { margin-top: 12px; padding-top: 10px; }
+  .native .file-row { margin-bottom: 8px; }
+  .native .display canvas { height: clamp(45px, 12vh, 75px); }
+  .native .stages, .native #message, .native #seek { margin: 8px 0; }
+  .native .player-controls { margin-top: 8px; }
+}
+@media (max-height: 640px) {
+  .native .intro .eyebrow, .native .drop-zone .file-icon { display: none; }
 }

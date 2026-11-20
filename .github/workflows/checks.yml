@@ -28,6 +28,8 @@ jobs:
       - run: npm ci --prefix vendor/audiojs --ignore-scripts
       - run: npm run lint
       - run: npm test
+      - name: Compile Windows desktop host
+        run: ./desktop/build.ps1 -Destination (Join-Path $env:RUNNER_TEMP 'BedroomRestore')
       - run: npm run build
       - uses: actions/upload-artifact@v4
         with:

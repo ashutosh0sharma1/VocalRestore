@@ -4,27 +4,32 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#193e4b" />
-    <title>Restore — a little room for your voice</title>
+    <title>Bedroom ReStore — a little room for your voice</title>
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/style.css" />
     <script src="/app.js" defer></script>
   </head>
   <body>
     <div class="desktop-label" aria-hidden="true">
-      <img src="/icon.svg" alt="" />restore.exe
+      <img src="/icon.svg" alt="" />bedroom restore
     </div>
     <main class="window" aria-labelledby="window-title">
       <header class="titlebar">
         <span id="window-title"
-          ><img src="/icon.svg" alt="" /> Restore
+          ><img src="/icon.svg" alt="" /> Bedroom ReStore
           <span class="title-extra">/ Vocal cleanup</span></span
-        ><button
+        ><div class="title-actions"><button
           id="help-button"
-          aria-label="About Restore"
-          title="About Restore"
+          aria-label="About Bedroom ReStore"
+          title="About Bedroom ReStore"
         >
           ?
         </button>
+        <span id="window-controls" hidden>
+          <button id="minimize" aria-label="Minimize window">−</button>
+          <button id="maximize" aria-label="Maximize or restore window">□</button>
+          <button id="close" aria-label="Close window">×</button>
+        </span></div>
       </header>
       <nav class="menubar" aria-label="Application">
         <button id="open-menu"><u>O</u>pen recording…</button
@@ -151,14 +156,14 @@
       </div>
       <footer class="statusbar">
         <span><i id="status-led"></i> <span id="status">Connecting…</span></span
-        ><span id="profile">STUDIO</span><span>v2.0.1</span
+        ><span id="profile">STUDIO</span><span>v2.1.0</span
         ><span class="grip" aria-hidden="true">◢</span>
       </footer>
     </main>
     <p class="desktop-footer">MADE FOR THE VOICE. KEPT ON YOUR COMPUTER.</p>
     <dialog id="about">
       <div class="titlebar">
-        <span>About Restore</span
+        <span>About Bedroom ReStore</span
         ><button id="close-help" aria-label="Close help">×</button>
       </div>
       <div class="dialog-body">
@@ -170,7 +175,7 @@
         </p>
         <p>
           Choose a mono or stereo recording between 1 second and 30 minutes.
-          Keep Restore running while it works; closing this tab is fine. Models
+          You can reopen a recent recording to check its progress. Models
           can take several minutes, especially on a CPU.
         </p>
         <p>
@@ -195,6 +200,14 @@
         <p>Open-source app · GPL-3.0 · No analytics · No account</p>
         <button id="help-done" class="button">Back to my recording</button>
       </div>
+    </dialog>
+    <dialog id="replace-dialog" aria-labelledby="replace-title">
+      <header class="titlebar"><span id="replace-title">Open another recording?</span></header>
+      <form method="dialog" class="dialog-body">
+        <p id="replace-question"></p>
+        <button class="button" value="keep" autofocus>Keep current</button>
+        <button class="button primary" value="replace" id="confirm-replace">Replace recording</button>
+      </form>
     </dialog>
   </body>
 </html>

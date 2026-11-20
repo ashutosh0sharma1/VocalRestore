@@ -19,6 +19,7 @@ def main():
     parser.add_argument("--app", type=Path)
     parser.add_argument("--python", type=Path)
     parser.add_argument("--no-browser", action="store_true")
+    parser.add_argument("--desktop-owner", type=int)
     args = parser.parse_args()
     here = (
         Path(sys.executable).resolve().parent
@@ -59,9 +60,17 @@ def main():
         except (OSError, ValueError):
             return False
 
+    def announce(port):
+        import psutil
+        lease = Path(loaded["output_dir"]) / f".desktop-{args.desktop_owner}"
+        lease.write_text(str(psutil.Process(args.desktop_owner).create_time()), encoding="ascii")
+        print(json.dumps({"url": f"http://127.0.0.1:{port}", "jobs": loaded["output_dir"]}), flush=True)
+
     for port in range(8530, 8555):
         if healthy(port):
-            if not args.no_browser:
+            if args.desktop_owner:
+                announce(port)
+            elif not args.no_browser:
                 webbrowser.open(f"http://127.0.0.1:{port}")
             print(f"Restore is already running at http://127.0.0.1:{port}", flush=True)
             return 0
@@ -84,7 +93,7 @@ def main():
             str(python),
             "-c",
             "import psutil,sys;print(psutil.Process(int(sys.argv[1])).create_time())",
-            str(os.getpid()),
+            str(args.desktop_owner or os.getpid()),
         ],
         text=True,
         creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
@@ -96,10 +105,13 @@ def main():
         str(port),
         "--no-browser",
         "--owner-pid",
-        str(os.getpid()),
+        str(args.desktop_owner or os.getpid()),
         "--owner-created",
         created,
     ]
+    detached = False
+    if args.desktop_owner:
+        command.append("--finish-on-close")
     with (log_dir / "launcher.log").open("a", encoding="utf-8") as log:
         process = subprocess.Popen(
             command,
@@ -121,6 +133,10 @@ def main():
             else:
                 raise ValueError("Restore startup timed out. See output/launcher.log.")
             url = f"http://127.0.0.1:{port}"
+            if args.desktop_owner:
+                announce(port)
+                detached = True
+                return 0
             print(
                 f"Restore is ready at {url}\nKeep this window open. Closing it stops Restore.",
                 flush=True,
@@ -132,7 +148,7 @@ def main():
         except KeyboardInterrupt:
             return 0
         finally:
-            if process.poll() is None:
+            if not detached and process.poll() is None:
                 process.terminate()
                 try:
                     process.wait(timeout=8)

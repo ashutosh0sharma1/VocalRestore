@@ -1,6 +1,6 @@
 <p align="center"><img src="web/icon.svg" alt="" width="64"></p>
 
-<h1 align="center">Restore</h1>
+<h1 align="center">Bedroom ReStore</h1>
 
 <p align="center"><strong>A little room for your voice.</strong><br>Local vocal cleanup, one repeatable workflow, and an early-2000s interface.</p>
 
@@ -12,11 +12,11 @@
 
 <p align="center"><a href="#get-started">Get started</a> · <a href="#what-you-get-for-free">What's free</a> · <a href="docs/workflow.md">The workflow</a> · <a href="docs/faq.md">FAQ</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
 
-Restore turns an isolated vocal recording into a cleaned take using a fixed chain of noise reduction, dereverberation, breath control, mouth-click repair and gentle finishing. Drop a file, click **Clean vocal**, compare **Before / Cleaned**, and download WAV or MP3. Processing runs on your computer, with no account, audio upload, telemetry or API key in the app.
+Bedroom ReStore turns an isolated vocal recording into a cleaned take using a fixed chain of noise reduction, dereverberation, breath control, mouth-click repair and gentle finishing. Drop a file, click **Clean vocal**, compare **Before / Cleaned**, and download WAV or MP3. Processing runs on your computer, with no account, audio upload, telemetry or API key in the app.
 
 **Free application and workflow; external tools have their own terms.** The established **Studio** profile needs separately licensed Nectar 4, Waves X-Click and soothe2. **Portable** needs no proprietary plugins, but is experimental. Both currently use a **non-commercial Sucial breath model**, and the denoise checkpoint's commercial permission is unresolved. See [what's included](#what-you-get-for-free) and [model terms](docs/models.md) before choosing a setup.
 
-<p align="center"><img src="docs/interface.jpg" alt="The real Restore interface: a cream retro window on a teal desktop, with a Choose audio button and a fixed vocal cleanup workflow." width="650"><br><sub>Actual application screenshot. Audio stays on your computer.</sub></p>
+<p align="center"><img src="docs/interface.jpg" alt="The real Restore interface: a cream retro window on a teal desktop, with a Choose audio button and a fixed vocal cleanup workflow." width="650"><br><sub>Browser interface from v2.0.1. The desktop edition uses the retro panel as its main window.</sub></p>
 
 ## Why Restore?
 
@@ -75,7 +75,7 @@ The GPL code license does not grant rights to external models, plugins or record
 
 **Supported setup:** Windows x64, Python 3.13, CPU. A modern multi-core CPU and 16 GB RAM are recommended. macOS/Linux and a complete clean-machine Studio installation are not yet verified. The release is a **source package**, not an all-in-one installer.
 
-1. [Download the latest source release](https://github.com/ashutosh0sharma1/VocalRestore/releases/latest), or clone this repository.
+1. [Download the Windows x64 or source release](https://github.com/ashutosh0sharma1/VocalRestore/releases/latest), or clone this repository.
 2. Follow the [Windows setup guide](docs/getting-started.md) to install Python dependencies and FFmpeg.
 3. Choose a profile, review model terms, download weights and start the app.
 
@@ -84,7 +84,7 @@ The GPL code license does not grant rights to external models, plugins or record
 | **Studio** — default | You own the required effects and want the established workflow. | [Studio instructions](docs/getting-started.md#studio-established-workflow) |
 | **Portable** — experimental | You want to try the workflow without proprietary plugins and accept different cleanup behavior. Same non-commercial breath-model restriction. | [Portable instructions](docs/getting-started.md#portable-no-proprietary-plugins) |
 
-Once installed, double-click **Start Restore.cmd**. Pick a mono/stereo WAV, MP3, FLAC, M4A, OGG or AIFF file, then choose **Clean vocal**. Inputs can be 16–96 kHz, 1 second–30 minutes and up to 512 MB. Start with a short excerpt to check results and processing time on your machine.
+With the Windows x64 download, open the included **VocalRestore.exe** after setup. From source, run `.\desktop\build.ps1` once after setup, then double-click **dist\desktop\VocalRestore.exe**. Drop a recording into the retro window. After cleanup, drag **Save WAV** or **Save MP3** into Explorer or an editor, or click to choose a destination. Pick a mono/stereo WAV, MP3, FLAC, M4A, OGG or AIFF file, then choose **Clean vocal**. Inputs can be 16–96 kHz, 1 second–30 minutes and up to 512 MB. Start with a short excerpt to check results and processing time on your machine.
 
 [Setup and troubleshooting](docs/getting-started.md) · [JSON configuration](docs/configuration.md) · [Common questions](docs/faq.md)
 

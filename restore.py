@@ -335,7 +335,7 @@ class Handler(BaseHTTPRequestHandler):
                     .encode()
                 ).hexdigest()[:16]
                 return self.json(
-                    {"app": "restore", "version": "2.0.1", "instance": identity}
+                    {"app": "restore", "version": "2.1.0", "instance": identity}
                 )
             if url.path == "/api/session":
                 return self.json(
@@ -345,7 +345,7 @@ class Handler(BaseHTTPRequestHandler):
                         issues=jobs.issues,
                         active=jobs.active,
                         recent=jobs.recent(),
-                        version="2.0.1",
+                        version="2.1.0",
                     )
                 )
             if len(parts) == 3 and parts[:2] == ["api", "jobs"]:
@@ -466,7 +466,7 @@ def runtime_lock(root):
     return handle
 
 
-def serve(config=None, port=8530, open_browser=True, owner=None):
+def serve(config=None, port=8530, open_browser=True, owner=None, finish_on_close=False):
     config = config or settings.load()
     lock = runtime_lock(config["output_dir"])
     try:
@@ -494,6 +494,19 @@ def serve(config=None, port=8530, open_browser=True, owner=None):
                         continue
                 except psutil.NoSuchProcess:
                     pass
+                if finish_on_close:
+                    windows_open = False
+                    for lease in jobs.root.glob(".desktop-*"):
+                        try:
+                            pid = int(lease.name.split("-")[-1])
+                            if psutil.Process(pid).create_time() == float(lease.read_text()):
+                                windows_open = True
+                                continue
+                        except (ValueError, OSError, psutil.NoSuchProcess):
+                            pass
+                        lease.unlink(missing_ok=True)
+                    if windows_open or jobs.active:
+                        continue
                 server.shutdown()
                 return
 
@@ -512,6 +525,7 @@ def serve(config=None, port=8530, open_browser=True, owner=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port", type=int, default=8530)
+    parser.add_argument("--finish-on-close", action="store_true")
     parser.add_argument("--config", type=Path)
     parser.add_argument("--no-browser", action="store_true")
     parser.add_argument("--owner-pid", type=int)
@@ -522,4 +536,4 @@ if __name__ == "__main__":
         if args.owner_pid and args.owner_created
         else None
     )
-    serve(settings.load(args.config), args.port, not args.no_browser, owner)
+    serve(settings.load(args.config), args.port, not args.no_browser, owner, args.finish_on_close)

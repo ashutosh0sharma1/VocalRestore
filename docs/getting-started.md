@@ -2,7 +2,7 @@
 
 [Back to the overview](../README.md) · [Model terms](models.md) · [Configuration](configuration.md)
 
-The public release contains source code. It does not bundle Python, FFmpeg, models or commercial plugins. Windows x64 with Python 3.13 and CPU inference is the tested environment; the full Studio setup has not yet been repeated on a clean machine.
+The source and Windows x64 release archives both contain the application source. The Windows archive also includes the compiled desktop host. It does not bundle Python, FFmpeg, models or commercial plugins. Windows x64 with Python 3.13 and CPU inference is the tested environment; the full Studio setup has not yet been repeated on a clean machine.
 
 ## 1. Get the source and prerequisites
 
@@ -91,13 +91,13 @@ This step uses the internet to download the configured weights. It verifies them
 
 ## 5. Clean a first recording
 
-Double-click **Start Restore.cmd**, or run:
+With the Windows x64 archive, double-click the top-level VocalRestore.exe after completing the setup above. For a source checkout, build the desktop window once from the repository root:
 
 ```powershell
-.\.venv\Scripts\python restore.py
+.\desktop\build.ps1
 ```
 
-The source launcher opens `http://127.0.0.1:8530`. Keep its Python window open while Restore runs. The browser tab can be closed and reopened.
+Double-click `dist\desktop\VocalRestore.exe`. It uses the installed Edge WebView2 Runtime, the existing Python environment and your configured models. Drop one recording anywhere in the window. Dropping another asks before switching. After cleanup, click Save WAV or Save MP3 for a file dialog, or drag the button into a folder or an audio editor. Dragged files remain under the job’s exports folder for editors that reference them. To use the browser interface separately, run `.\.venv\Scripts\python restore.py`.
 
 1. Choose a short isolated vocal to begin with. Supported inputs are mono/stereo WAV, MP3, FLAC, M4A, OGG and AIFF, 16–96 kHz, 1 second–30 minutes, up to 512 MB.
 2. Click **Clean vocal** and wait for the fixed stages to finish. Missing prerequisites are shown before processing; Restore does not silently fall back to another profile.

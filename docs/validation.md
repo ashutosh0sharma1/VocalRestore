@@ -47,3 +47,24 @@ A small derivative/smoothing VST alternative changed sustained audio too broadly
 Preservation checks cannot certify that every breath is removed or every word is untouched. Fricatives and aspirated consonants can resemble breath noise. Source clipping and lossy watery artifacts may be irreversible. The configured models were not newly trained here; default studio audio behavior is retained from the established workflow. The optional portable profile does not have full perceptual equivalence or a commercial-use clearance.
 
 The new app uses no Gemini/API requests in ordinary cleanup. One development-only listening request used 2,344 tokens; it is not part of the application's runtime or configuration.
+
+For a marked vocal repair, use scripts/repair_marked.py with a WAV, an ordered
+JSON list of reviewed time ranges, and a new output WAV path. Each range has
+start and end in seconds, with optional attenuation_db, highpass_hz, or
+resonances (lists of frequency in Hz, Q, and reduction in dB). Inspect the
+marked locations before choosing a treatment. Quiet isolated breaths can
+take much stronger attenuation than a region overlapping a sung word.
+Compare the same timestamps at the same playback gain. Keep uncertain
+voiced sounds as review items when gentle EQ does not resolve them.
+
+Restore makes downloads available when rendering finishes. Playback and A/B
+comparison are optional. For deliveries that need listening sign-off, record
+review coverage separately. Export checks and spot samples cannot clear the
+whole file.
+
+For voiced damage, compare saved stages before applying any reduction.
+A reviewed range may use donor_mix (0 to 1) with --donor pointing to an
+earlier, time-aligned WAV. Restore matches the donor level per range and
+crossfades the boundaries. Listen for any backing bleed returning with
+the earlier stem. Use mute only on confirmed isolated breath/noise
+ranges with room for the short edge fades.

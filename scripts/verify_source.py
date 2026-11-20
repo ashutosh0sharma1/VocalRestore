@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-FOLDERS = ["engine", "scripts", "tests", "web", ".github", "docs", "vendor/audiojs"]
+FOLDERS = ["desktop", "engine", "scripts", "tests", "web", ".github", "docs", "vendor/audiojs"]
 
 
 def source_files():
@@ -32,7 +32,7 @@ def source_files():
 def verify():
     files = source_files()
     for p in files:
-        if p.suffix in {".png", ".jpg", ".svg"}:
+        if p == ROOT / "desktop/bedroom-restore.ico" or p.suffix in {".png", ".jpg", ".svg"}:
             continue
         text = p.read_text(encoding="utf-8")
         if p.suffix == ".py":

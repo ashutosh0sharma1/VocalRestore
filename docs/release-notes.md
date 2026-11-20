@@ -1,3 +1,7 @@
+# Bedroom ReStore 2.1.0
+
+Windows desktop release with the retro interface as the app window, file drop-in, a recording replacement prompt, native WAV and MP3 drag-out, Save As, and a multi-resolution microphone icon for Windows Explorer and taskbar pins. Once a file is loaded, the waveform, playback, progress and export controls fit in the main window. Recent recordings open from the menu. The existing executable name and job paths keep earlier shortcuts and saved work compatible. Build the desktop host after setting up the audio engine as described in [Getting started](getting-started.md).
+
 # Restore 2.0.1
 
 Clearer onboarding and a more transparent public repository, with the same established audio workflow.
